@@ -112,9 +112,11 @@ loadProvider()
     
 
  const[productsItem,setProductsItem] =  useState([])
+ const[productsSoldItem,setProductsSoldItem] =  useState([])
+
 
  useEffect(()=>{
-   loadProducts()
+  productsCount&&loadProducts()
  },[productsCount])
 
 
@@ -122,11 +124,23 @@ loadProvider()
 
         for(let i =1;i <=productsCount;i++){
           const product = await contract.methods.shopProducts(i).call()
-          console.log(product)
-          setProductsItem(productsItem=>[...productsItem,product]);
+          console.log(product.sold)
+
+          if(product.sold===false){
+            setProductsItem(productsItem=>[...productsItem,product]);
+          }else{
+            setProductsSoldItem(productsSoldItem=>[...productsSoldItem,product]);
+
+          }
+
+         
           
         }
         setLoading(false)
+      }
+
+      const buyProduct = (id,price)=>{
+        contract.methods.purchasedShopProduct(id).send({from:account,value:price});
       }
 
  
@@ -166,6 +180,7 @@ loadProvider()
   </div>
 </div>
 <div className="productItems">
+  <h1>Product Can Buy It</h1>
   {
     loading?<p>LOADING..</p> :productsItem.map((item,index)=>{
       return(
@@ -182,8 +197,8 @@ loadProvider()
     }</h5>
     <p class="card-text">{item.description}</p>
     <p class="card-text"> The Seller Address Is {item.owner}</p>
+    <button type="button " className="btn btn-success p-2 m-3" onClick={()=>{buyProduct(item.id,item.price)}}>Buy Now</button>
 
-    <a href="#" class="btn btn-primary">Buy Now</a>
   </div>
 </div>
 </div>
@@ -196,6 +211,38 @@ loadProvider()
 
     })
   }
+
+<h1>Products Solded</h1>
+  {
+    loading?<p>LOADING..</p> :productsSoldItem.map((item,index)=>{
+      return(
+        <>
+        <div className = "container">
+
+<div class=" card m-5">
+  <div class="card-header">
+    Product Number {item.name}
+  </div>
+  <div class="card-body">
+    <h5 class="card-title">{
+      Web3.utils.fromWei(item.price,"ether")
+    }</h5>
+    <p class="card-text">{item.description}</p>
+    <p class="card-text"> The Seller Address Is {item.owner}</p>
+
+  </div>
+</div>
+</div>
+        
+
+
+
+        </>
+      )
+
+    })
+  }
+
 
 </div>
 
