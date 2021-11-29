@@ -9,7 +9,7 @@ function App() {
     provider:null,
     web3:null,
   })
-
+const[loading,setLoading]= useState(true)
   useEffect(()=>{
 
     const loadProvider =  async()=>{
@@ -69,7 +69,8 @@ loadProvider()
         
           const producCount = await deployedContract.methods.count().call()
           setProductsCount(producCount);
-        
+
+
   
       }else{
         window.alert("Please connect your wallet with Ganache")
@@ -79,7 +80,7 @@ loadProvider()
 
 
     }
-    web3Api.web3 &&loadContracts();
+    web3Api.web3&&loadContracts();
   },[web3Api.web3])
   const [productInputs,setProductInputs]=useState({
     name:"",price:"",description:""
@@ -102,19 +103,46 @@ loadProvider()
 
 
     }
-    
+
+    const [productItems,setProductItems]=useState([])
+
     useEffect(()=>{
+      loadProducts()
+    },[productsCount])
+
+  
       const loadProducts =  async()=>{
 
-        for(let i =0;i <productsCount;i++){
-          const product = await contract.methods.shopProducts(i).call()
-          console.log(product)
+        if(account,contract){
+          for(let i =1;i <=productsCount;i++){
+            const product = await contract.methods.shopProducts(i).call()
+            setProductItems(productItems=>[...productItems,product])
+            
+          }
+          setLoading(false)
+  
         }
 
+       
       }
-      contract&& loadProducts();
+     
+    
 
-    },[contract ])
+ 
+
+    // useEffect(()=>{
+    //   const loadProducts =  async()=>{
+
+    //     for(let i =0;i <productsCount;i++){
+    //       const product = await contract.methods.shopProducts(i).call()
+    //       console.log(product)
+          
+    //     }
+
+    //   }
+    //   contract&& loadProducts();
+
+    // },[contract ])
  
 
 
@@ -151,6 +179,32 @@ loadProvider()
 
   </div>
 </div>
+
+{
+ loading?<h1>Loading </h1>:productItems.map((item,index)=>{
+   return(
+
+  <>
+  <p>{item.name}</p>
+  <p>{item.owner}</p>
+
+  <p>{item.price}</p>
+  <p>{item.id}</p>
+
+
+  </>
+   )
+
+
+ })
+
+}
+
+
+
+
+
+
     </div>
   );
 }
