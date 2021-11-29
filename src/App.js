@@ -9,7 +9,7 @@ function App() {
     provider:null,
     web3:null,
   })
-const[loading,setLoading]= useState(true)
+  const [loading,setLoading] = useState(true)
   useEffect(()=>{
 
     const loadProvider =  async()=>{
@@ -104,45 +104,31 @@ loadProvider()
 
     }
 
-    const [productItems,setProductItems]=useState([])
-
-    useEffect(()=>{
-      loadProducts()
-    },[productsCount])
 
   
-      const loadProducts =  async()=>{
-
-        if(account,contract){
-          for(let i =1;i <=productsCount;i++){
-            const product = await contract.methods.shopProducts(i).call()
-            setProductItems(productItems=>[...productItems,product])
-            
-          }
-          setLoading(false)
   
-        }
-
-       
-      }
+  
      
     
 
- 
+ const[productsItem,setProductsItem] =  useState([])
 
-    // useEffect(()=>{
-    //   const loadProducts =  async()=>{
+ useEffect(()=>{
+   loadProducts()
+ },[productsCount])
 
-    //     for(let i =0;i <productsCount;i++){
-    //       const product = await contract.methods.shopProducts(i).call()
-    //       console.log(product)
+
+      const loadProducts =  async()=>{
+
+        for(let i =1;i <=productsCount;i++){
+          const product = await contract.methods.shopProducts(i).call()
+          console.log(product)
+          setProductsItem(productsItem=>[...productsItem,product]);
           
-    //     }
+        }
+        setLoading(false)
+      }
 
-    //   }
-    //   contract&& loadProducts();
-
-    // },[contract ])
  
 
 
@@ -179,26 +165,27 @@ loadProvider()
 
   </div>
 </div>
-
-{
- loading?<h1>Loading </h1>:productItems.map((item,index)=>{
-   return(
-
-  <>
-  <p>{item.name}</p>
-  <p>{item.owner}</p>
-
-  <p>{item.price}</p>
-  <p>{item.id}</p>
-
-
-  </>
-   )
+<div className="productItems">
+  {
+    loading?<p>LOADING..</p> :productsItem.map((item,index)=>{
+      return(
+        <>
+        <p>{item.id}</p>
+        <p>{item.name}</p>
+        <p>{item.price}</p>
+        <p>{item.description}</p>
+        <p>{item.owner}</p>
+        
 
 
- })
 
-}
+        </>
+      )
+
+    })
+  }
+
+</div>
 
 
 
