@@ -170,11 +170,23 @@ loadProvider()
     loading?<p>LOADING..</p> :productsItem.map((item,index)=>{
       return(
         <>
-        <p>{item.id}</p>
-        <p>{item.name}</p>
-        <p>{item.price}</p>
-        <p>{item.description}</p>
-        <p>{item.owner}</p>
+        <div className = "container">
+
+<div class=" card m-5">
+  <div class="card-header">
+    Product Number {item.name}
+  </div>
+  <div class="card-body">
+    <h5 class="card-title">{
+      Web3.utils.fromWei(item.price,"ether")
+    }</h5>
+    <p class="card-text">{item.description}</p>
+    <p class="card-text"> The Seller Address Is {item.owner}</p>
+
+    <a href="#" class="btn btn-primary">Buy Now</a>
+  </div>
+</div>
+</div>
         
 
 
