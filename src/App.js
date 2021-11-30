@@ -156,9 +156,22 @@ loadProvider()
     </form>
   </div>
 </nav>
-<div className = "mainPart">
-  <h1>{productsCount}</h1>
-  <h1>Add your Product to Buy it</h1>
+<div className = " container mainPart">
+  <div className=" m-3 alert alert-primary" role="alert">
+  Total Product Count is {productsCount}
+</div>
+ 
+<div className="card m-3">
+  <div className="card-header bg-dark text-white ">
+    Welcome To shop
+  </div>
+  <div className="card-body">
+    <blockquote className="blockquote mb-0">
+      <h2>Add your products now to our descentralize  application</h2>
+      <footer className="blockquote-footer">By Bahaa Taha </footer>
+    </blockquote>
+  </div>
+</div>
 
   <div className ="Productinputs container">
   <div className="input-group mb-3">
@@ -175,34 +188,54 @@ loadProvider()
   <span className="input-group-text">Product Description</span>
   <textarea className="form-control" aria-label="With textarea" onChange = {e=>setProductInputs({...productInputs,description:e.target.value})}></textarea>
 </div>
-<button type="button " className="btn btn-success p-2 m-3" onClick={addProduct}>Add Products</button>
+<button type="button " className="btn btn-success p-auto m-3" onClick={addProduct}>Add Products</button>
 
   </div>
 </div>
 <div className="productItems">
-  <h1>Product Can Buy It</h1>
+{
+  productsCount >= 1 ? <div className=" container  alert alert-danger" role="alert">
+  <h4>Products Can Buy It</h4>
+  </div> : <div className=" container  alert alert-warning" role="alert">
+<h4>NOO Products Added Yet</h4>
+</div>
+
+}
+<div class="container">
+  <div class="row">
+  
   {
     loading?<p>LOADING..</p> :productsItem.map((item,index)=>{
       return(
         <>
-        <div className = "container">
+        <div className = "container col">
 
-<div class=" card m-5">
-  <div class="card-header">
-    Product Number {item.name}
-  </div>
-  <div class="card-body">
-    <h5 class="card-title">{
-      Web3.utils.fromWei(item.price,"ether")
-    }</h5>
-    <p class="card-text">{item.description}</p>
-    <p class="card-text"> The Seller Address Is {item.owner}</p>
-    <button type="button " className="btn btn-success p-2 m-3" onClick={()=>{buyProduct(item.id,item.price)}}>Buy Now</button>
+      <div class=" card m-3 bg-dark">
+        <div class="card-header bg-light text-black">
+         <h5> {item.name}</h5>
+        </div>
+        <div class="card-body">
+           <div className="  pl-1 m-1 alert alert-warning" role="alert">
+       <h4> price: {
+            
+            Web3.utils.fromWei(item.price,"ether")
+          } ETH</h4>
+    </div>
 
-  </div>
-</div>
-</div>
-        
+    <div className="  pl-1 m-1 alert alert-danger" role="alert">
+    <p class="card-text"> Product Description: {item.description}</p>
+    </div>
+      
+    <div className="  pl-1 m-1 alert alert-warning" role="alert">
+    <p class="card-text"> The Seller Address Is:  <h6 className = "text-success">{item.owner}</h6></p>
+    </div>
+    <div className ="d-grid gap-2 d-md-flex justify-content-md-end ">
+          <button type="button " className="  btn btn-success m-2" onClick={()=>{buyProduct(item.id,item.price)}}>Buy Now</button>
+          </div>
+        </div>
+      </div>
+      </div>
+              
 
 
 
@@ -211,29 +244,50 @@ loadProvider()
 
     })
   }
+  </div>
+  </div>
 
-<h1>Products Solded</h1>
-  {
+
+
+{
+  productsSoldItem.length >= 1 ? <div className=" container  alert alert-danger" role="alert">
+  <h4>Poduct Solded</h4>
+  </div> : <div className=" container  alert alert-warning" role="alert">
+<h4>NOO Products Solded Yet Yet</h4>
+</div>
+}
+<div class="container">
+  <div class="row">
+{
     loading?<p>LOADING..</p> :productsSoldItem.map((item,index)=>{
       return(
         <>
-        <div className = "container">
+        <div className = "container col">
 
-<div class=" card m-5">
-  <div class="card-header">
-    Product Number {item.name}
-  </div>
-  <div class="card-body">
-    <h5 class="card-title">{
-      Web3.utils.fromWei(item.price,"ether")
-    }</h5>
-    <p class="card-text">{item.description}</p>
-    <p class="card-text"> The Seller Address Is {item.owner}</p>
+      <div class=" card m-3 bg-dark">
+        <div class="card-header bg-danger text-white">
+         <h5> {item.name}</h5>
+        </div>
+        <div class="card-body">
+           <div className="  pl-1 m-1 alert alert-warning" role="alert">
+       <h4> price: {
+            
+            Web3.utils.fromWei(item.price,"ether")
+          } ETH</h4>
+    </div>
 
-  </div>
-</div>
-</div>
-        
+    <div className="  pl-1 m-1 alert alert-danger" role="alert">
+    <p class="card-text"> Product Description: {item.description}</p>
+    </div>
+      
+    <div className="  pl-1 m-1 alert alert-warning" role="alert">
+    <p class="card-text"> The Owner Address Is:  <h6 className = "text-success">{item.owner}</h6></p>
+    </div>
+    
+        </div>
+      </div>
+      </div>
+              
 
 
 
@@ -242,6 +296,9 @@ loadProvider()
 
     })
   }
+  </div>
+  </div>
+ 
 
 
 </div>
