@@ -188,7 +188,7 @@ loadProvider()
   <span className="input-group-text">Product Description</span>
   <textarea className="form-control" aria-label="With textarea" onChange = {e=>setProductInputs({...productInputs,description:e.target.value})}></textarea>
 </div>
-<button type="button " className="btn btn-success p-auto m-3" onClick={addProduct}>Add Products</button>
+<button type="button " className="btn btn-success p-auto m-3" onClick={()=>{addProduct()}}>Add Products</button>
 
   </div>
 </div>
